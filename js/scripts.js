@@ -1,16 +1,33 @@
-/*This file is for your custom js.  All yours*/
+// Business logic
+function Contact(first, last){
+  this.firstName = first;
+  this.lastName = last;
+}
 
-// Calls input from form-input.html
+Contact.prototype.fullName = function(){
+  return this.firstName + " " + this.lastName;
+}
 
+// UI logic
 $(document).ready(function(){
-
-  $("#input").submit(function(event){
+  $("#new-contact").submit(function(event){
     event.preventDefault();
-    var input = ($("#blank").val());
 
-    var output = "";
+    var inputtedFirstName = $("#new-first-name").val();
+    var inputtedLastName = $("#new-last-name").val();
 
-    $('#output').text(output);
+    var newContact = new Contact(inputtedFirstName, inputtedLastName);
 
+    $("#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
+
+    $(".contact").last().click(function(){
+      $("#show-contact").show();
+      $("#show-contact h2").text(newContact.firstName);
+      $(".first-name").text(newContact.firstName);
+      $(".last-name").text(newContact.lastName);
+    });
+
+    $("#new-first-name").val("");
+    $("#new-last-name").val("");
   });
 });
